@@ -9,16 +9,16 @@
 - `MOJOKERTO` : 128M
 - `TUBAN` : 128M
 ### 2. Menghitung dan menggunakan IP sesuai dengan NID DMZ masing-masing kelompok
-### 3. IP Tuntap : NID_tuntap_tiap_kelompok + 1
+### 3. IP Tuntap : NID_tuntap_tiap_kelompok + 1 -> 10.151.72.25
 ### 4. IP Interface Router SURABAYA :
-- `eth0` : NID_tuntap_tiap_kelompok + 2
-- `eth3` : NID_DMZ_tiap_kelompok + 1 
+- `eth0` : NID_tuntap_tiap_kelompok + 2 -> `10.151.72.26`
+- `eth3` : NID_DMZ_tiap_kelompok + 1 -> `10.151.73.49`
 - `eth1` : 192.168.0.1
 - `eth2` : 192.168.1.1
 ### 5. IP Server (SUBNET 2) :
-- `MALANG` : NID_DMZ_tiap_kelompok + 2
-- `MOJOKERTO` : NID_DMZ_tiap_kelompok + 3
-- `TUBAN` : NID_DMZ_tiap_kelompok + 4
+- `MALANG` : NID_DMZ_tiap_kelompok + 2 -> `10.151.73.50`
+- `MOJOKERTO` : NID_DMZ_tiap_kelompok + 3 -> `10.151.73.51`
+- `TUBAN` : NID_DMZ_tiap_kelompok + 4 -> `10.151.73.52`
 
 # Soal
 ## 1. Membuat topologi jaringan sesuai kriteria sebagai berikut :
@@ -37,7 +37,7 @@ Dimana `SURABAYA` sebagai router, `MALANG` sebagai DNS Server, `TUBAN` sebagai D
 
 ## 6. Client di subnet 1 mendapatkan peminjaman alamat IP selama 5 menit, sedangkan client pada subnet 3 mendapatkan peminjaman IP selama 10 menit
 
-## 7. Akses ke proxy hanya bisa dilakukan oleh Anri sendiri sebagai user TA. User autentikasi milik Anri memiliki format:
+## 7. Akses ke proxy hanya bisa dilakukan oleh Anri sendiri sebagai user TA. User autentikasi milik Anri memiliki format sebagai berikut :
 - User : `userta_yyy` -> `userta_a05`
 - Password : `inipassw0rdta_yyy` -> `inipassw0rdta_a05`
 
@@ -51,11 +51,15 @@ Dimana `SURABAYA` sebagai router, `MALANG` sebagai DNS Server, `TUBAN` sebagai D
 
 ![403](https://user-images.githubusercontent.com/52326074/99974165-24949a00-2dd3-11eb-8f25-9fd6efa16e09.jpg)
 
-`Note` : File error page bisa diunduh dengan cara `wget 10.151.36.202/ERR_ACCESS_DENIED`, tidak perlu di extract, cukup `cp -r`
+`Note` :
+
+File error page bisa diunduh dengan cara `wget 10.151.36.202/ERR_ACCESS_DENIED`, tidak perlu di extract, cukup `cp -r`
 
 ## 12. Karena sama-sama pelupa, untuk memudahkan maka Anri memiliki ide ketika menggunakan proxy cukup dengan mengetikkan domain janganlupa-ta.yyy.pw dan memasukkan port 8080
 
-`Note` : Domain janganlupa-ta.yyy.pw -> `janganlupa-ta.a05.pw`
+`Note` :
+
+Domain janganlupa-ta.yyy.pw -> `janganlupa-ta.a05.pw`
 
 # Catatan
 ```
