@@ -7,7 +7,7 @@
 - `SURABAYA` : 256M
 - `MALANG` : 160M
 - `MOJOKERTO` : 128M
-- `TUBAN` 128M
+- `TUBAN` : 128M
 ### 2. Menghitung dan menggunakan IP sesuai dengan NID DMZ masing-masing kelompok
 ### 3. IP Tuntap : NID_tuntap_tiap_kelompok + 1
 ### 4. IP Interface Router SURABAYA :
@@ -51,7 +51,7 @@ Dimana `SURABAYA` sebagai router, `MALANG` sebagai DNS Server, `TUBAN` sebagai D
 
 ![403](https://user-images.githubusercontent.com/52326074/99974165-24949a00-2dd3-11eb-8f25-9fd6efa16e09.jpg)
 
-`Note` : File error page bisa diunduh dengan cara `wget 10.151.36.202/error403.tar.gz` kemudian extract `tar -xvf error403.tar.gz`
+`Note` : File error page bisa diunduh dengan cara `wget 10.151.36.202/ERR_ACCESS_DENIED`, tidak perlu di extract, cukup `cp -r`
 
 ## 12. Karena sama-sama pelupa, untuk memudahkan maka Anri memiliki ide ketika menggunakan proxy cukup dengan mengetikkan domain janganlupa-ta.yyy.pw dan memasukkan port 8080
 
