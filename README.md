@@ -203,9 +203,107 @@ subnet 192.168.1.0 netmask 255.255.255.0 {
 - User : `userta_yyy` -> `userta_a05`
 - Password : `inipassw0rdta_yyy` -> `inipassw0rdta_a05`
 
+Pertama yang dilakukan pastinya menginstall `squid3` di `MOJOKERTO` dengan perintah `apt-get install squid3`, kemudian memastikan instalasi squid3 berhasil atau tidak dengan perintah `service squid3 status`.
+
+Kemudian melakukan konfigurasi dasar `squid3` dengan langkahlangkah sebagai berikut :
+
+- membackup file default yang disediakan squid3 dengan perintah `mv /etc/squid3/squid.conf /etc/squid3/squid.conf.bak`
+- kemudian buat konfigurasi baru dengan perintah `nano /etc/squid3/squid.conf` yang didalamnya sebagai berikut :
+```
+http_port 8080
+visible_hostname mojokerto
+```
+
+![7-1](https://user-images.githubusercontent.com/52326074/100224061-e3c19000-2f4e-11eb-8e5f-3fbf5139e45e.jpg)
+
+- lalu restart squid3 dengan perintah `service squid3 restart`
+- langkah selanjutnya yaitu mengatur proxy browser pada device dengan IP Address `10.151.73.51` dan port `8080`
+
+![7-2](https://user-images.githubusercontent.com/52326074/100224062-e45a2680-2f4e-11eb-9f1d-5a857b6557db.jpg)
+
+- selanjutnya coba akses website `its.ac.id` menggunakan incognito, dan hasilnya sebagai berikut.
+
+![7-3](https://user-images.githubusercontent.com/52326074/100224063-e4f2bd00-2f4e-11eb-9fc9-35704c3d9b94.jpg)
+
+- karena dalam mengakses website `its.ac.id` terkendala error maka menambahkan konfigurasi `http_access allow all`
+
+![7-4](https://user-images.githubusercontent.com/52326074/100224045-e02e0900-2f4e-11eb-9815-bedc51fb6d41.jpg)
+
+- kemudian simpan hasail konfigurasi dan restart squid3 dengan perintah `service squid3 restart`
+
+![7-5](https://user-images.githubusercontent.com/52326074/100224052-e1f7cc80-2f4e-11eb-868a-9116b71fcca7.jpg)
+
+Kemudian selanjutnya mengatur user login dengan langkah-langkah sebagai berikut :
+
+- install `apache2-utils` pada UML `MOJOKERTO` dengan perintah `apt-get install apache2-utils`. Sebelumnya kalian sudah harus melakukan apt-get update
+- kemudian membuat user dan password dengan perintah `htpasswd -c /etc/squid/passwd userta_a05` dengan password : `inipassw0rdta_a05`
+
+![7-5](https://user-images.githubusercontent.com/52326074/100224052-e1f7cc80-2f4e-11eb-868a-9116b71fcca7.jpg)
+
+- kemudian edit konfigurasi dengan perintah `nano /etc/squid3/squid.conf` yang didalamnya sebagai berikut.
+```
+http_port 8080
+visible_hostname mojokerto
+
+auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+acl USERS proxy_auth REQUIRED
+http_access allow USERS
+```
+
+![7-6](https://user-images.githubusercontent.com/52326074/100224055-e2906300-2f4e-11eb-9565-23426dfd085d.jpg)
+
+- kemudian restart squid3 dengan perintah `service squid3 restart` dan akan muncul user autentifikasi seperti berikut.
+
+![7-7](https://user-images.githubusercontent.com/52326074/100224058-e328f980-2f4e-11eb-89bf-7cbf306baf67.jpg)
+
 ## 8. Jadwal pengerjaan TA Anri setiap hari Selasa-Rabu pukul 13.00-18.00
+- membuat file baru bernama `acl.conf` dengan perintah `nano /etc/squid3/acl.conf` yang didalamnya sebagai berikut :
+```
+acl AVAILABLE_WORKING time TW 13:00-18:00
+```
+
+- kemudian buka file `squid.conf` dengan perintah `nano /etc/squid3/squid.conf` dan diubah konfigurasinya menjadi seperti berikut :
+```
+include /etc/squid3/acl.conf
+
+http_port 8080
+http_access allow AVAILABLE_WORKING
+http_access deny all
+visible_hostname mojokerto
+```
+
+- kemudian simpan file tersebut dan restart dengan perintah `service squid3 restart`
 
 ## 9. Jadwal bimbingan TA dengan Bu Meguri setiap hari Selasa-Kamis pukul 21.00 - 09.00 keesokan harinya (sampai Jumat jam 09.00)
+- menambahkan konfigurasi pada `acl.conf` dengan perintah `nano /etc/squid3/acl.conf` yang didalamnya sebagai berikut :
+```
+acl AVAILABLE_WORKING time TW 13:00-18:00
+acl AVAILABLE_WORKING2 time TWH 21:00-23:59
+acl AVAILABLE_WORKING3 time WHF 00:00-09:00
+```
+
+- kemudian buka file `squid.conf` dengan perintah `nano /etc/squid3/squid.conf` dan menambah konfigurasinya menjadi seperti berikut :
+```
+include /etc/squid3/acl.conf
+
+http_port 8080
+http_access allow AVAILABLE_WORKING
+http_access allow AVAILABLE_WORKING2
+http_access allow AVAILABLE_WORKING3
+http_access deny all
+visible_hostname mojokerto
+```
+
+- kemudian simpan file tersebut dan restart dengan perintah `service squid3 restart`
+
+Berikut hasil konfigurasi untuk no 8 dan 9 :
+
+![89-1](https://user-images.githubusercontent.com/52326074/100226460-5e3fdf00-2f52-11eb-990b-d83a27db13f7.jpg)
+![89-2](https://user-images.githubusercontent.com/52326074/100226456-5d0eb200-2f52-11eb-8f69-f5250e0b3bbe.jpg)
 
 ## 10. Setiap dia mengakses google.com, maka akan di redirect menuju monta.if.its.ac.id agar Anri selalu ingat untuk mengerjakan TA
 
