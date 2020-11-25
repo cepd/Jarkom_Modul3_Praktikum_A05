@@ -306,6 +306,27 @@ Berikut hasil konfigurasi untuk no 8 dan 9 :
 ![89-2](https://user-images.githubusercontent.com/52326074/100226456-5d0eb200-2f52-11eb-8f69-f5250e0b3bbe.jpg)
 
 ## 10. Setiap dia mengakses google.com, maka akan di redirect menuju monta.if.its.ac.id agar Anri selalu ingat untuk mengerjakan TA
+- pertama edit file `acl.conf` dengan menjalankan perintah `nano /etc/squid3/acl.conf` yang didalamnya ditambahkan sebagai berikut :
+```
+acl lan src all
+acl google dstdomain .google.com
+```
+
+![10-1](https://user-images.githubusercontent.com/52326074/100239761-5a1cbd00-2f64-11eb-9d40-1f02ac94a053.jpg)
+
+- kemudian edit file `squid.conf` dengan menjalankan perintah `nano /etc/squid3/squid.conf` yang didalamnya ditambahkan sebagai berikut :
+```
+deny_info http://monta.if.its.ac.id lan
+http_reply_access deny google lan
+http_access allow all
+```
+
+![10-2](https://user-images.githubusercontent.com/52326074/100239756-5852f980-2f64-11eb-9ae9-2bf48365ac81.jpg)
+
+- kemudian simpan dan restart dengan menjalankan perintah `service squid3 restart`
+- lalu coba akses `google.com` maka akan diarahkan ke `monta.if.its.ac.id` seperti berikut.
+
+![10-3](https://user-images.githubusercontent.com/52326074/100239763-5ab55380-2f64-11eb-94ae-2f745f14798f.jpg)
 
 ## 11. Untuk menandakan bahwa Proxy Server ini adalah Proxy yang dibuat oleh Anri, Bu Meguri meminta Anri untuk mengubah error page default squid menjadi seperti berikut :
 
@@ -315,14 +336,67 @@ Berikut hasil konfigurasi untuk no 8 dan 9 :
 
 File error page bisa diunduh dengan cara `wget 10.151.36.202/ERR_ACCESS_DENIED`, tidak perlu di extract, cukup `cp -r`
 
+- pertama masuk ke dalam folder error dengan mennjalankan perintah `cd /usr/share/squid/errors/English`
+- kemudian jalankan perintah `ls` untuk mengetahui isi keseluruhan folder tersebut, kemudian cari file bernama `ERR_ACCESS_DENIED`
+- lalu jalankan perintah `rm ERR_ACCESS_DENIED` untuk menghapus file tersebut
+- selanjutnya download file berupa gambar error untuk menggantikan file yg sebelumnya dihapus dengan menjalankan perintah `wget 10.151.36.202/ERR_ACCESS_DENIED`
+
+![11-1](https://user-images.githubusercontent.com/52326074/100240943-c0560f80-2f65-11eb-8cb2-a4b50091d6ec.jpg)
+
+- kemudian edit file `squid.conf` dengan menjalankan perintah `nano /etc/squid3/squid.conf` yang didalamnya ditambahkan sebagai berikut :
+```
+error_directory /usr/share/squid3/errors/English/
+
+http_access deny all
+```
+
+![11-2](https://user-images.githubusercontent.com/52326074/100240940-bfbd7900-2f65-11eb-9a57-3e8be5d23285.jpg)
+
+- kemudian simpan dan restart dengan menjalankan perintah `service squid3 restart`
+- lalu coba akses `its.ac.id` maka akan tampil gambar error seperti berikut.
+
+![11-3](https://user-images.githubusercontent.com/52326074/100240934-be8c4c00-2f65-11eb-8169-76d18cca9317.jpg)
+
 ## 12. Karena sama-sama pelupa, untuk memudahkan maka Anri memiliki ide ketika menggunakan proxy cukup dengan mengetikkan domain janganlupa-ta.yyy.pw dan memasukkan port 8080
 
 `Note` :
 
 Domain janganlupa-ta.yyy.pw -> `janganlupa-ta.a05.pw`
 
+- yang pertama mengatur proxy browser pada device dengan IP Address `janganlupa-ta.a05.pw` dan port `8080`
+
+![12-1](https://user-images.githubusercontent.com/52326074/100241988-e03a0300-2f66-11eb-9f05-5b10f431c2d9.jpg)
+
+- kemudian pada UML `MALANG` jalankan perintah `apt-get install bind9 -y`
+- lalu edit file `named.conf.local` dengan menjalankan perintah `nano /etc/bind/named.conf.local` yang didalamnya sebagai berikut :
+```
+zone "janganlupa-ta.a05.pw" {
+	type master;
+	file "/etc/bind/jarkom/janganlupa-ta.a05.pw";
+};
+```
+
+![12-2](https://user-images.githubusercontent.com/52326074/100241962-da442200-2f66-11eb-94ee-d40bdd08bb48.jpg)
+
+- selanjutnya buat folder `jarkom` dengan menjalankan perintah `mkdir /etc/bind/jarkom`
+- lalu copy file `db.local` dengan menjalankan perintah `cp /etc/bind/db.local /etc/bind/jarkom/janganlupa-ta.a05.pw`
+- kemudian edit file `janganlupa-ta.a05.pw` dengan menjalankan perintah `nano /etc/bind/jarkom/janganlupa-ta.a05.pw`
+
+![12-3](https://user-images.githubusercontent.com/52326074/100241944-d57f6e00-2f66-11eb-9cc7-44ce1c5accef.jpg)
+
+- kemudian simpan dan restart dengan menjalankan perintah `service bind9 restart`
+- selanjutnya pada UML `GRESIK` edit file `resolv.conf` dengan menjalankan perintah `nano /etc/resolv.conf`
+
+![12-4](https://user-images.githubusercontent.com/52326074/100242036-eb8d2e80-2f66-11eb-8ed3-d97ba9805914.jpg)
+
+- lalu cek kebenarannya
+
+![12-5](https://user-images.githubusercontent.com/52326074/100242009-e4feb700-2f66-11eb-97d5-2b06179a1cc2.jpg)
+
 # Catatan
 ```
 Jika tidak bisa dan menyerah untuk setup DHCP Server pada TUBAN (dengan relay pada SURABAYA),
 maka setup DHCP pada SURABAYA (tanpa DHCP Relay). Pastinya nilai tidak akan maksimal.
 ```
+
+# Terima Kasih
