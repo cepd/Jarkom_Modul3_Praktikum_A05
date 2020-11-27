@@ -365,9 +365,7 @@ Domain janganlupa-ta.yyy.pw -> `janganlupa-ta.a05.pw`
 
 - yang pertama mengatur proxy browser pada device dengan IP Address `janganlupa-ta.a05.pw` dan port `8080`
 
-![12-1](https://user-images.githubusercontent.com/52326074/100241988-e03a0300-2f66-11eb-9f05-5b10f431c2d9.jpg)
-
-- kemudian pada UML `MALANG` jalankan perintah `apt-get install bind9 -y`
+- Pada UML `MALANG` jalankan perintah `apt-get install bind9 -y`
 - lalu edit file `named.conf.local` dengan menjalankan perintah `nano /etc/bind/named.conf.local` yang didalamnya sebagai berikut :
 ```
 zone "janganlupa-ta.a05.pw" {
@@ -391,7 +389,7 @@ zone "janganlupa-ta.a05.pw" {
 
 - lalu cek kebenarannya
 
-![12-5](https://user-images.githubusercontent.com/52326074/100242009-e4feb700-2f66-11eb-97d5-2b06179a1cc2.jpg)
+![Screen Shot 2020-11-27 at 16 15 59](https://user-images.githubusercontent.com/56763600/100426599-1ba21200-30cc-11eb-8842-dc9770cb359a.png)
 
 # Catatan
 ```
