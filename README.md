@@ -363,7 +363,7 @@ http_access deny all
 
 Domain janganlupa-ta.yyy.pw -> `janganlupa-ta.a05.pw`
 
-- yang pertama mengatur proxy browser pada device dengan IP Address `janganlupa-ta.a05.pw` dan port `8080`
+- yang pertama mengatur proxy browser pada device dengan IP Address `10.151.73.51` dan port `8080`
 
 - Pada UML `MALANG` jalankan perintah `apt-get install bind9 -y`
 - lalu edit file `named.conf.local` dengan menjalankan perintah `nano /etc/bind/named.conf.local` yang didalamnya sebagai berikut :
